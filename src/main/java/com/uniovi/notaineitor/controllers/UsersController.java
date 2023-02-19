@@ -1,12 +1,21 @@
 package com.uniovi.notaineitor.controllers;
-import org.springframework.beans.factory.annotation.*;
+
+import com.uniovi.notaineitor.entities.User;
+import com.uniovi.notaineitor.services.SecurityService;
+import com.uniovi.notaineitor.services.UsersService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import com.uniovi.notaineitor.entities.*;
-import com.uniovi.notaineitor.services.UsersService;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UsersController {
+    @Autowired
+    private SecurityService securityService;
     @Autowired
     private UsersService usersService;
     @RequestMapping("/user/list")
@@ -44,5 +53,23 @@ public class UsersController {
     public String setEdit(@PathVariable Long id, @ModelAttribute User user) {
         usersService.addUser(user);
         return "redirect:/user/details/" + id;
+    }
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public String signup(@ModelAttribute("user") User user, Model model) {
+        usersService.addUser(user);
+        securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
+        return "redirect:home";
+    }
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+        return "login";
+    }
+    @RequestMapping(value = { "/home" }, method = RequestMethod.GET)
+    public String home(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String dni = auth.getName();
+        User activeUser = usersService.getUserByDni(dni);
+        model.addAttribute("markList", activeUser.getMarks());
+        return "home";
     }
 }
