@@ -5,6 +5,9 @@ public class Mark {
     @Id
     @GeneratedValue
     private Long id;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     private String description;
     private Double score;
@@ -16,11 +19,22 @@ public class Mark {
         this.description = description;
         this.score = score;
     }
+    public Mark(String description, Double score, User user) {
+        super();
+        this.user = user;
+        this.description = description;
+        this.score = score;
+    }
     @Override
     public String toString() {
         return "Mark{" + "id=" + id + ", description='" + description + '\'' + ", score=" + score + '}';
     }
-
+public User getUser(){
+        return user;
+}
+public void serUser(User u){
+        user = u;
+}
     public Long getId() {
         return id;
     }
