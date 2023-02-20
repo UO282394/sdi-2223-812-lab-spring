@@ -56,7 +56,8 @@ public class UsersController {
     }
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
     public String setEdit(@PathVariable Long id, @ModelAttribute User user) {
-        usersService.addUser(user);
+
+        usersService.updateUser(user,id);
         return "redirect:/user/details/" + id;
     }
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
