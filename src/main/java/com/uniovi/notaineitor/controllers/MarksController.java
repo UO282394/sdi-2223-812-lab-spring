@@ -3,13 +3,20 @@ package com.uniovi.notaineitor.controllers;
 import com.uniovi.notaineitor.entities.Mark;
 import com.uniovi.notaineitor.services.MarksService;
 import com.uniovi.notaineitor.services.UsersService;
+import com.uniovi.notaineitor.validators.AddMarkValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MarksController {
+
+    @Autowired
+    private AddMarkValidator addMarkValidator;
+
     @Autowired //Inyectar el servicio
     private MarksService marksService;
     @Autowired
@@ -27,8 +34,15 @@ public class MarksController {
     }
 
     @RequestMapping(value = "/mark/add", method = RequestMethod.POST)
-    public String setMark(@ModelAttribute com.uniovi.notaineitor.entities.Mark mark) {
+    public String setMark(@Validated com.uniovi.notaineitor.entities.Mark mark, BindingResult result,Model model) {
+        addMarkValidator.validate(mark,result);
+        if(result.hasErrors()){
+
+            model.addAttribute("usersList", usersService.getUsers());
+            return"mark/add";
+        }
         marksService.addMark(mark);
+
         return "redirect:/mark/list";
     }
     @RequestMapping(value = "/mark/edit/{id}")
@@ -51,6 +65,7 @@ public class MarksController {
     @RequestMapping(value = "/mark/add")
     public String getMark(Model model) {
         model.addAttribute("usersList", usersService.getUsers());
+        model.addAttribute("mark",new Mark());
         return "mark/add";
     }
     @RequestMapping(value="/mark/edit/{id}", method=RequestMethod.POST)

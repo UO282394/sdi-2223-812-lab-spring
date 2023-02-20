@@ -32,7 +32,7 @@ public class Mark {
 public User getUser(){
         return user;
 }
-public void serUser(User u){
+public void setUser(User u){
         user = u;
 }
     public Long getId() {
