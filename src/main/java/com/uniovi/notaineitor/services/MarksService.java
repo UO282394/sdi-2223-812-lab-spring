@@ -1,6 +1,7 @@
 package com.uniovi.notaineitor.services;
 
 import com.uniovi.notaineitor.entities.Mark;
+import com.uniovi.notaineitor.entities.User;
 import com.uniovi.notaineitor.repositories.MarksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -51,7 +52,14 @@ public class MarksService {
             marksRepository.updateResend(revised, id);
         }
     }
-
+    public List<Mark> getMarksForUser(User user) {
+        List<Mark> marks = new ArrayList<>();
+        if (user.getRole().equals("ROLE_STUDENT")) {
+            marks = marksRepository.findAllByUser(user);}
+        if (user.getRole().equals("ROLE_PROFESSOR")) {
+            marks = getMarks(); }
+        return marks;
+    }
     public void addMark(Mark mark) {
         // Si en Id es null le asignamos el ultimo + 1 de la lista
         marksRepository.save(mark);
