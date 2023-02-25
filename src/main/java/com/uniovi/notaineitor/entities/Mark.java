@@ -10,6 +10,8 @@ public class Mark {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+    private Boolean resend = false;
+
 
     private String description;
     private Double score;
@@ -31,6 +33,13 @@ public class Mark {
     public String toString() {
         return "Mark{" + "id=" + id + ", description='" + description + '\'' + ", score=" + score + '}';
     }
+    public Boolean getResend() {
+        return resend;
+    }
+    public void setResend(Boolean resend) {
+        this.resend = resend;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
