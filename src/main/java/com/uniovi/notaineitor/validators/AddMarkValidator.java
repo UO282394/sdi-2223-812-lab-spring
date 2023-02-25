@@ -22,10 +22,8 @@ public class AddMarkValidator implements Validator {
         char aux =  mark.getUser().getDni().charAt(mark.getUser().getDni().length()-1);
         if (mark.getDescription().length() <20) {
             errors.rejectValue("description", "Error.mark.description.length");}
-        if (mark.getUser().getDni().length() != 9 || Character.isDigit(aux)) {
-            errors.rejectValue("user", "Error.mark.dni.length");}
-        if (usersService.getUserByDni(mark.getUser().getDni()) != null) {
-            errors.rejectValue("user", "Error.signup.dni.duplicate");}
+
+
 
     }
 }
