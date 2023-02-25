@@ -61,4 +61,10 @@ public class User {
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
     }
+    public void setRole(String r){
+        role = r;
+    }
+    public String getRole(){
+        return role;
+    }
 }
