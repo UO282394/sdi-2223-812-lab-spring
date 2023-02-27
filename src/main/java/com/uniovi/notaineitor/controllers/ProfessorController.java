@@ -35,6 +35,18 @@ private ProfessorService professorService;
        professorService.addProfessor(professor);
         return "redirect:/professor/list";
     }
+    @RequestMapping("/professor/edit")
+    public String edit(Model model) {
+
+
+        return "professor/list";
+
+    }
+    @RequestMapping(value = "/professor/edit", method = RequestMethod.POST)
+    public String edit(@Validated Professor professor, BindingResult result) {
+
+        return "redirect:/professor/list";
+    }
 
 
     @RequestMapping("/professor/details/{id}")
