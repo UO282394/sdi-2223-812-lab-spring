@@ -219,9 +219,10 @@ class Sdi2223812SpringApplicationTests {
         Assertions.assertEquals(checkText,result.get(0).getText());
         //Ahora nos desconectamos comprobamas que aparece el menu de registrarse
         String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());PO_PrivateView.clickOption(driver, "logout", "text", loginText);
+
     }
     //P14. Loguearse como profesor y Agregar Nota A2.
-//P14. Esta prueba podría encapsularse mejor ...
+    //P14. Esta prueba podría encapsularse mejor ...
     @Test
     @Order(16)
     public void PR14() {
